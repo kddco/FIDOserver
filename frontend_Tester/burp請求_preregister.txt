@@ -1,0 +1,27 @@
+POST /preregister HTTP/1.1
+Host: 127.0.0.1:6677
+Content-Type: application/json
+Content-Length: <body length>
+
+{
+    "rp": {
+        "reqid": "1234567891",
+        "type": "http",
+        "app": "example.com"
+    },
+    "user": {
+        "id": "a2RkY28=",
+        "name": "john.doe@example.com",
+        "displayName": "x-www-form"
+    },
+    "pubKeyCredParams": {
+        "type": "public-key",
+        "alg": -7
+    },
+    "timeout": 60000,
+    "attestation": "direct",
+    "authenticatorSelection": {
+        "authenticatorAttachment": "platform",
+        "userVerification": "preferred"
+    }
+}

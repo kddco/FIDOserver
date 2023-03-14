@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Submit Form as JSON</title>
+  </head>
+  <body>
+    <form id="myForm">
+      <label for="reqid">reqid:</label>
+      <input type="text" id="reqid" name="reqid"><br>
+
+      <label for="type">type:</label>
+      <input type="text" id="type" name="type"><br>
+
+      <label for="app">app:</label>
+      <input type="text" id="app" name="app"><br>
+
+      <label for="id">id:</label>
+      <input type="text" id="id" name="id"><br>
+
+      <label for="name">name:</label>
+      <input type="text" id="name" name="name"><br>
+
+      <label for="displayName">displayName:</label>
+      <input type="text" id="displayName" name="displayName"><br>
+
+      <button type="button" onclick="submitForm()">Submit</button>
+    </form>
+
+    <script>
+      function submitForm() {
+        const form = document.getElementById('myForm');
+        const formData = {
+          "rp": {
+            "reqid": form.elements.reqid.value,
+            "type": form.elements.type.value,
+            "app": form.elements.app.value
+          },
+          "user": {
+            "id": form.elements.id.value,
+            "name": form.elements.name.value,
+            "displayName": form.elements.displayName.value
+          },
+          "pubKeyCredParams": {
+            "type": "public-key",
+            "alg": -7
+          },
+          "timeout": 60000,
+          "attestation": "direct",
+          "authenticatorSelection": {
+            "authenticatorAttachment": "platform",
+            "userVerification": "preferred"
+          }
+        };
+        
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '127.0.0.1:6677/preregister');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            console.log(xhr.responseText);
+          } else {
+            console.error(xhr.responseText);
+          }
+        };
+        xhr.send(JSON.stringify(formData));
+      }
+    </script>
+  </body>
+</html>
