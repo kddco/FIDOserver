@@ -20,7 +20,7 @@ router.post('/preregister', (req, res) => {
     
     var challenge = require('../../challenge_fun.js');
     challenge_code = challenge.get_128bits();
-    console.log(req.body);
+    // console.log(req.body);
     
     //驗證所有參數是否存在
     if((!rp || typeof rp.reqid === 'undefined' || typeof rp.type === 'undefined' || typeof rp.app === 'undefined' ||
@@ -35,28 +35,12 @@ router.post('/preregister', (req, res) => {
       req.session.id=id;
       req.session.name=name;
       req.session.displayName=displayName;
-      console.log("req.session：",req.session);
-      console.log("req.sessionID：",req.sessionID);
+      console.log("前註冊 req.session.reqid：",req.session.reqid);
+      // console.log("req.sessionID：",req.sessionID);
 
 
     }
   
-
-    // 驗證請求是否包含必要的參數
-    // if (!svcinfo || !payload) {
-    //   res.status(400).send('Missing required parameters');
-    //   return;
-    // }
-    // console.log(svcinfo.svcpassword);
-    // const { did, protocol, authtype, svcusername, svcpassword } = svcinfo;
-    // const { username, displayname, options, extensions } = payload;
-  
-    // // 驗證每個參數是否存在
-    // if (!did || !protocol || !authtype || !svcusername || !svcpassword ||
-    //     !username || !displayname || !options || !extensions) {
-    //   res.status(400).send('Missing required parameters');
-    //   return;
-    // }
   
     res.json({
       "rp": {
@@ -85,9 +69,58 @@ router.post('/preregister', (req, res) => {
 
 
 // register路由
-router.post('/register' , (req , res)=>{
+router.post('/register' , (req , res,)=>{
     // router code here
-    res.send('/register');
-})
+    // res.send('/register');
+    console.log(req.session);
+    const { rp,user } = req.body;
+    const{reqid,type,app} = rp;
+    const {id,name,displayName} = user;
+    
+    var challenge = require('../../challenge_fun.js');
+
+    if(!req.session){
+      res.status(400).send('please preregister first，session不存在');
+      return;
+
+    }
+    if (!req.session.reqid || !req.session.type || !req.session.app ||
+      !req.session.id || !req.session.name || !req.session.displayName) {
+      res.status(400).send('Please call /preregister first');
+      return;
+    }
+
+    //檢查JSON格式中值是否有空
+    if((!rp || typeof rp.reqid === 'undefined' || typeof rp.type === 'undefined' || typeof rp.app === 'undefined' ||
+    typeof user.id === 'undefined' || typeof user.name === 'undefined' || typeof user.displayName === 'undefined')){
+      res.status(400).send('please preregister first,參數錯誤');
+      
+      return;
+    }
+    console.log("註冊 req.session.displayName",req.session.displayName);
+    // console.log(req.session.rp);
+    // if (req.session && req.session.reqid && req.session.type && req.session.app
+    //   && req.session.id && req.session.name && req.session.displayName) {
+    if (req.session) {
+
+        // 如果會話已經存在，則返回歡迎信息
+        // console.log(req.session);
+        
+        res.status(200).send(`Welcome back ${req.session.displayName}!`);
+        return;
+
+
+      }
+      else{
+        
+        res.status(400).send('session不存在');
+        return;
+        
+      }
+
+
+
+
+});
 
 module.exports  = router

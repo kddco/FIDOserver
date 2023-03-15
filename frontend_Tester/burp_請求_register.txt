@@ -1,4 +1,4 @@
-POST /preregister HTTP/1.1
+POST /register HTTP/1.1
 Host: 127.0.0.1:6677
 Content-Type: application/json
 Content-Length: 10000
