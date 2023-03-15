@@ -4,10 +4,9 @@ const EC = require('elliptic').ec;
 var challenge = require('./challenge_fun.js');
 // console.log("128bits random num",challenge.get_128bits());
 // hashSignAndVerify();
-getKeyPair();
+// getKeyPair();
 
-
-
+privateKeyToKeypair("90b51754e545f524d876a9a1abe9c63cc0613162abef689a8d359994080fae2e");
 function hashSignAndVerify(){
     //完整過程，hash後簽章再驗證
     //hash and sign ,finally check signed
@@ -34,6 +33,9 @@ function sign(keyPair,hashed_data){
 function signature_check(keyPair,hashed,signed_data){
     //check signature is true for false
     
+    // const keyPair = ec.keyFromPrivate(privateKey);
+
+
     return keyPair.verify(hashed,signed_data);
 
 }
@@ -47,6 +49,22 @@ function getKeyPair(){
     console.log("privateKeyHex",privateKeyHex);
     return keyPair;
 }
+function privateKeyToKeypair(privateKeyHex){
+    //input privateKeyHex
+    //output Keypair
+    const EC = require('elliptic').ec;
+    const ec = new EC('secp256k1');
+
+    console.log("privateKeyToKeypair");
+
+    let new_keyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
+    // console.log("new keypair",new_keyPair);
+    console.log("privateKey",new_keyPair.getPrivate('hex'));
+    console.log("publicKey",new_keyPair.getPublic('hex'));
+    return new_keyPair;
+}
+
+
 
 
 
@@ -57,5 +75,6 @@ module.exports = {
     hash,
     sign,
     signature_check,
-    getKeyPair
+    getKeyPair,
+    privateKeyToKeypair
   };
