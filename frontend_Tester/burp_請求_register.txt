@@ -2,7 +2,7 @@ POST /register HTTP/1.1
 Host: 127.0.0.1:6677
 Content-Type: application/json
 Content-Length: 10000
-
+Cookie: connect.sid=s%3AiC8GDEsiueWco-RzGiBWfpuXPpsVfJPL.o5znMrbGJ8qGnk%2FJ5%2BdZgkGgSb5nJRbdFy7qwQZiO94
 {
     "rp": {
         "reqid": "123456789C",
@@ -10,7 +10,7 @@ Content-Length: 10000
         "app": "example.com"
     },
     "user": {
-        "id": "a2RkY28=",
+        "ID": "a2RkY28=",
         "name": "john.doe@example.com",
         "displayName": "wayne"
     },
