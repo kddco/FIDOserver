@@ -48,7 +48,7 @@ router.post('/preregister', (req, res) => {
         "app": app
       },
       "user": {
-        "name": name
+        "name": name,
         "displayName": displayName
       },
       "challenge": challenge_code,
