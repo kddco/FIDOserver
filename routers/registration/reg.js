@@ -16,15 +16,15 @@ router.post('/preregister', (req, res) => {
     
     const { rp,user } = req.body;
     const{reqid,type,app} = rp;
-    const {ID,name,displayName} = user;
+    const {name,displayName} = user;
     
     var challenge = require('../../challenge_fun.js');
     challenge_code = challenge.get_128bits();
     // console.log(req.body);
     
     //驗證所有參數是否存在
-    if((!rp || typeof rp.reqid === 'undefined' || typeof rp.type === 'undefined' || typeof rp.app === 'undefined' ||
-    typeof user.ID === 'undefined' || typeof user.name === 'undefined' || typeof user.displayName === 'undefined')){
+    if((!rp || typeof rp.reqid === 'undefined' || typeof rp.type === 'undefined' || typeof rp.app === 'undefined'
+    || typeof user.name === 'undefined' || typeof user.displayName === 'undefined')){
       res.status(400).send('Missing required parameters');
       return;
     }
@@ -32,7 +32,6 @@ router.post('/preregister', (req, res) => {
       req.session.reqid = reqid;
       req.session.type = type;
       req.session.app=app;
-      req.session.ID=ID;
       req.session.name=name;
       req.session.displayName=displayName;
       // console.log("前註冊 req.session.reqid：",req.session.reqid);
@@ -49,8 +48,7 @@ router.post('/preregister', (req, res) => {
         "app": app
       },
       "user": {
-        "ID": ID,
-        "name": name,
+        "name": name
         "displayName": displayName
       },
       "challenge": challenge_code,
@@ -75,7 +73,7 @@ router.post('/register' , (req , res,)=>{
 
     const { rp,user } = req.body;
     const{reqid,type,app} = rp;
-    const {ID,name,displayName} = user;
+    const {name,displayName} = user;
     
     var challenge = require('../../challenge_fun.js');
 
@@ -87,14 +85,14 @@ router.post('/register' , (req , res,)=>{
     }
     //檢查session中的值是否為空(無先行呼叫/preregister)
     if (!req.session.reqid || !req.session.type || !req.session.app ||
-      !req.session.ID || !req.session.name || !req.session.displayName) {
+      !req.session.name || !req.session.displayName) {
       res.status(400).send('Please call /preregister first');
       return;
     }
 
     //檢查當前請求的JSON格式是否正確
     if((!rp || typeof rp.reqid === 'undefined' || typeof rp.type === 'undefined' || typeof rp.app === 'undefined' ||
-    typeof user.ID === 'undefined' || typeof user.name === 'undefined' || typeof user.displayName === 'undefined')){
+    typeof user.name === 'undefined' || typeof user.displayName === 'undefined')){
       res.status(400).send('please preregister first,參數錯誤');
       
       return;
@@ -102,7 +100,6 @@ router.post('/register' , (req , res,)=>{
     if (!(req.session.reqid === req.body.rp.reqid
     && req.session.type === req.body.rp.type
     && req.session.app === req.body.rp.app
-    && req.session.ID === req.body.user.ID
     && req.session.name === req.body.user.name
     && req.session.displayName === req.body.user.displayName)) {
     // if (req.session.ID === req.body.user.ID){

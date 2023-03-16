@@ -10,8 +10,7 @@ Cookie: connect.sid=s%3AiC8GDEsiueWco-RzGiBWfpuXPpsVfJPL.o5znMrbGJ8qGnk%2FJ5%2Bd
         "app": "example.com"
     },
     "user": {
-        "ID": "a2RkY28=",
-        "name": "john.doe@example.com",
+        "name": "john.doe@example.com"
         "displayName": "wayne"
     },
     "pubKeyCredParams": {

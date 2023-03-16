@@ -3,16 +3,17 @@ Host: 127.0.0.1:6677
 Content-Type: application/json
 Content-Length: 10000
 
+
+
 {
     "rp": {
-        "reqid": "123456789C",
+        "reqid": "123456B",
         "type": "http",
         "app": "example.com"
     },
     "user": {
-        "id": "a2RkY28=",
-        "name": "john.doe@example.com",
-        "displayName": "wayne"
+        "name": "john.doe@example.com"
+        "displayName": "user1"
     },
     "pubKeyCredParams": {
         "type": "public-key",
