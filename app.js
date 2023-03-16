@@ -12,8 +12,8 @@ var challenge = require('./challenge_fun.js');
 
 //load routers
 const testRouters  = require("./test_router.js");
-const registerRouters = require('./routers/registration/reg.js');
-const eccRouters = require('./routers/ECC_keypair.js');
+const registerRouters = require('./routers/registration/regRoute.js');
+const challengeRouters = require('./routers/challengeRoute.js');
 const test_session = require('./test_session.js');
 
 
@@ -36,7 +36,7 @@ app.use(session({
 // 引入路由
 app.use('/test',testRouters);
 app.use('/',registerRouters);
-app.use('/',eccRouters);
+app.use('/',challengeRouters);
 app.use('/',test_session);
 
 

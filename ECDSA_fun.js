@@ -2,11 +2,8 @@ const crypto = require('crypto');
 const EC = require('elliptic').ec;
 
 var challenge = require('./challenge_fun.js');
-// console.log("128bits random num",challenge.get_128bits());
-// hashSignAndVerify();
-// getKeyPair();
 
-privateKeyToKeypair("90b51754e545f524d876a9a1abe9c63cc0613162abef689a8d359994080fae2e");
+// hashSignAndVerify();
 function hashSignAndVerify(){
     //完整過程，hash後簽章再驗證
     //hash and sign ,finally check signed
@@ -23,11 +20,11 @@ function hash(text){
     return crypto.createHash('sha256').update(text).digest();
 }
 
-function sign(keyPair,hashed_data){
+function sign(keyPair,hashed_challenge){
     //input keyPair,hashed_data
     //out signed
 
-    const signed_data = keyPair.sign(hashed_data);
+    const signed_data = keyPair.sign(hashed_challenge);
     return signed_data;
 }
 function signature_check(keyPair,hashed,signed_data){
@@ -45,8 +42,8 @@ function getKeyPair(){
     const keyPair = ec.genKeyPair();
     const publicKeyHex = keyPair.getPublic('hex');
     const privateKeyHex = keyPair.getPrivate('hex');
-    console.log("publicKeyHex",publicKeyHex);
-    console.log("privateKeyHex",privateKeyHex);
+    // console.log("publicKeyHex",publicKeyHex);
+    // console.log("privateKeyHex",privateKeyHex);
     return keyPair;
 }
 function privateKeyToKeypair(privateKeyHex){
@@ -55,12 +52,12 @@ function privateKeyToKeypair(privateKeyHex){
     const EC = require('elliptic').ec;
     const ec = new EC('secp256k1');
 
-    console.log("privateKeyToKeypair");
+    // console.log("privateKeyToKeypair");
 
     let new_keyPair = ec.keyFromPrivate(privateKeyHex, 'hex');
     // console.log("new keypair",new_keyPair);
-    console.log("privateKey",new_keyPair.getPrivate('hex'));
-    console.log("publicKey",new_keyPair.getPublic('hex'));
+    // console.log("privateKey",new_keyPair.getPrivate('hex'));
+    // console.log("publicKey",new_keyPair.getPublic('hex'));
     return new_keyPair;
 }
 
