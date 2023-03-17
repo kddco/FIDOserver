@@ -1,5 +1,8 @@
 const router = require('express').Router()
 
+
+const ecdsa = require('../../ECDSA_fun.js');
+
 //解析JSON
 const bodyParser = require('body-parser');
 
@@ -70,8 +73,10 @@ router.post('/preregister', (req, res) => {
 router.post('/register' , (req , res,)=>{
     // router code here
     // res.send('/register');
-
+    
     const { rp,user } = req.body;
+    const {hashedSignedChallenge}=req.body; 
+    const {privateKeyHex}=req.body;
     const{reqid,type,app} = rp;
     const {name,displayName} = user;
     
@@ -117,7 +122,9 @@ router.post('/register' , (req , res,)=>{
         res.status(400).send('session不存在');
         return;
       }
-
+    
+    //開始驗證簽章
+    // ecdsa.signature_check();
 
 
 

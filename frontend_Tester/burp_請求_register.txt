@@ -4,23 +4,26 @@ Content-Type: application/json
 Content-Length: 10000
 Cookie: connect.sid=s%3AiC8GDEsiueWco-RzGiBWfpuXPpsVfJPL.o5znMrbGJ8qGnk%2FJ5%2BdZgkGgSb5nJRbdFy7qwQZiO94
 {
-    "rp": {
-        "reqid": "123456789C",
-        "type": "http",
-        "app": "example.com"
-    },
-    "user": {
-        "name": "john.doe@example.com"
-        "displayName": "wayne"
-    },
-    "pubKeyCredParams": {
-        "type": "public-key",
-        "alg": -7
-    },
-    "timeout": 60000,
-    "attestation": "direct",
-    "authenticatorSelection": {
-        "authenticatorAttachment": "platform",
-        "userVerification": "preferred"
-    }
+  "rp": {
+    "reqid": "123456789A",
+    "type": "http",
+    "app": "example.com"
+  },
+  "user": {
+    "id": "<base64url-encoded-user-id>",
+    "name": "john.doe@example.com",
+    "displayName": "kddc"
+  },
+  "pubKeyCredParams": {
+    "type": "public-key",
+    "alg": -7
+  },
+  "timeout": 60000,
+  "attestation": "direct",
+  "authenticatorSelection": {
+    "authenticatorAttachment": "platform",
+    "userVerification": "preferred"
+  },
+  "challenge": "8d42fe94f431302c6e1096d32a0927d3",
+  "privateKeyHex": "72513eaddbc2d28617e2a0e130fd0e06d157b3d1e1668aff9dc777da9369291c"
 }

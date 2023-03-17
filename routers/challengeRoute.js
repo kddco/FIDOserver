@@ -6,8 +6,10 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({ extended: true }));
 
 const ecdsa = require('../ECDSA_fun.js');
-
-
+const challenge = require('../challenge_fun.js');
+router.get('/getchallenge',(req,res) => {
+  res.send(challenge.get_128bits());
+});
 
 
 router.get('/getkeypairhex', (req, res) => {
@@ -33,17 +35,20 @@ router.post('/hashsign', (req, res) => {
   // 使用變數 publicKeyHex 和 privateKeyHex 處理資料
   // console.log('publicKeyHex:', publicKeyHex);
   // console.log('privateKeyHex:', privateKeyHex);
+  // console.log('challenge:', challenge);
 
   const new_keyPair = ecdsa.privateKeyToKeypair(privateKeyHex);
+  // console.log("new_keyPair",new_keyPair);
   const hashed_challenge = ecdsa.hash(challenge);
+  // console.log("hashed_challenge",hashed_challenge);
   const hashedSignedChallenge = ecdsa.sign(new_keyPair,hashed_challenge);
-  console.log(typeof hashedSignedChallenge);
+  // console.log("hashedSignedChallenge",hashedSignedChallenge);
   const response = {
     status: 200,
     message: 'Success',
     hashedSignedChallenge: hashedSignedChallenge
   };
-  
+  console.log("response.hashedSignedChallenge",response.hashedSignedChallenge);
   res.json(response);
 });
 

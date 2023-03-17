@@ -3,6 +3,9 @@ const EC = require('elliptic').ec;
 
 var challenge = require('./challenge_fun.js');
 
+
+
+
 // hashSignAndVerify();
 function hashSignAndVerify(){
     //完整過程，hash後簽章再驗證
@@ -42,8 +45,9 @@ function getKeyPair(){
     const keyPair = ec.genKeyPair();
     const publicKeyHex = keyPair.getPublic('hex');
     const privateKeyHex = keyPair.getPrivate('hex');
-    // console.log("publicKeyHex",publicKeyHex);
-    // console.log("privateKeyHex",privateKeyHex);
+    console.log("publicKeyHex",publicKeyHex);
+    console.log("privateKeyHex",privateKeyHex);
+    console.log(keyPair);
     return keyPair;
 }
 function privateKeyToKeypair(privateKeyHex){
