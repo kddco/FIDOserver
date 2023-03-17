@@ -15,5 +15,7 @@ const privateKeyHex = keyPair.getPrivate('hex');
 const new_keyPair = ecdsa.privateKeyToKeypair(privateKeyHex);
 const hashed_challenge = ecdsa.hash(challenge);
 const hashedSignedChallenge = ecdsa.sign(new_keyPair,hashed_challenge);
+console.log("hashedSignedChallenge",hashedSignedChallenge);
+console.log("type",typeof hashedSignedChallenge);
 const signature_check_result = ecdsa.signature_check(new_keyPair,hashed_challenge,hashedSignedChallenge);
 console.log(signature_check_result);
