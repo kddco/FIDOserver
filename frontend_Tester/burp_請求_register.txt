@@ -10,7 +10,7 @@ Cookie: connect.sid=s%3AiC8GDEsiueWco-RzGiBWfpuXPpsVfJPL.o5znMrbGJ8qGnk%2FJ5%2Bd
     "app": "example.com"
   },
   "user": {
-    "name": "john.doe@example.com"
+    "name": "john.doe@example.com",
     "displayName": "kddc"
   },
   "pubKeyCredParams": {
@@ -24,6 +24,6 @@ Cookie: connect.sid=s%3AiC8GDEsiueWco-RzGiBWfpuXPpsVfJPL.o5znMrbGJ8qGnk%2FJ5%2Bd
     "userVerification": "preferred"
   },
   "hashedChallengeHex": "8d42fe94f431302c6e1096d32a0927d3",
-  "hashedSingedMSGHex": "72513eaddbc2d28617e2a0e130fd0e06d157b3d1e1668aff9dc777da9369291c",
-  "publicKeyHex":"123"
+  "hashedSignedMSGHex": "72513eaddbc2d28617e2a0e130fd0e06d157b3d1e1668aff9dc777da9369291c",
+  "publicKeyHex": "123"
 }

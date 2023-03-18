@@ -1,13 +1,8 @@
-const router = require('express').Router()
-
-
-router.get('/' , (req , res)=>{
-    // router code here
-})
-
-
-router.get('/another-route' , (req , res)=>{
-    // router code here
-})
-
-module.exports  = router
+const a= 0;
+try{
+    const b= 0;
+}
+catch{
+    console.log(1);
+}
+console.log(b);

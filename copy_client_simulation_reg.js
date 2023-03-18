@@ -18,23 +18,7 @@ const hashedSignedChallenge = ecdsa.sign(new_keyPair,hashed_challenge);
 
 // const hexString = Buffer.from(str).toString("hex");
 // console.log(typeof hashed_challenge);
-// console.log("hashed_challenge",hashed_challenge);
+console.log("hashed_challenge",hashed_challenge);
 console.log("hashedSignedChallenge",hashedSignedChallenge);
-
-
-var objectToHex = (obj) => {
-    var str = JSON.stringify(obj);
-    var hexString = Buffer.from(str).toString('hex');
-    return hexString;
-  }
-let hashed_challengeHex=0;
-let hashedSignedChallengeHex=0;
-hashed_challengeHex = objectToHex(hashed_challenge);
-hashedSignedChallengeHex = objectToHex(hashedSignedChallengeHex);
-console.log("hashed_challengeHex",hashed_challengeHex);
-console.log("hashedSignedChallengeHex",hashedSignedChallengeHex);
-
-
-
 const signature_check_result = ecdsa.signature_check(new_keyPair,hashed_challenge,hashedSignedChallenge);
 console.log(signature_check_result);

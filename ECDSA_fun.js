@@ -39,6 +39,38 @@ function signature_check(keyPair,hashed,signed_data){
     return keyPair.verify(hashed,signed_data);
 
 }
+function signature_check(arg1,arg2,arg3){
+    if (typeof arguments[0] === 'string') {
+        return signature_check_clientuse(arg1,arg2,arg3);
+    }
+    else{
+        return signature_check_serveruse(arg1,arg2,arg3);
+    }
+
+
+
+}
+
+//伺服器本地測試用的
+function signature_check_serveruse(keyPair,hashed,signed_data){
+    //check signature is true for false
+    
+    // const keyPair = ec.keyFromPrivate(privateKey);
+
+
+    return keyPair.verify(hashed,signed_data);
+
+}
+
+//client請求用的
+function signature_check_clientuse(hashedChallengeHex,hashedSignedMSGHex,publicKeyHex){
+    const EC = require('elliptic').ec;
+    const ec = new EC('secp256k1');
+    let new_keyPair = ec.keyFromPublic(publicKeyHex, 'hex');
+    
+    const isVerified = crypto.verify('sha256', hashedChallengeHex, new_keyPair, hashedSignedMSGHex);
+    return isVerified;
+}
 
 function getKeyPair(){
     const ec = new EC('secp256k1');
