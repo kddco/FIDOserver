@@ -27,6 +27,11 @@ router.get('/getkeypairhex', (req, res) => {
   res.json({ publicKeyHex, privateKeyHex });
 });
 
+router.get('/hash' , (req , res)=>{
+  console.log(req.body.challenge_text);
+  res.send(ecdsa.hash(req.body.challenge_text))
+
+})
 
 router.post('/hashsign', (req, res) => {
   console.log(req.body);

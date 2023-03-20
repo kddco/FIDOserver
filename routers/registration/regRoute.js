@@ -119,9 +119,7 @@ router.post('/register' , (req , res,)=>{
     console.log("屬性值不一致");
     res.status(400).send('前註冊和註冊的屬性值不一致');
   } 
-  // console.log(req.body.hashedChallengeHex);
-  console.log("req.body.hashedSignedMSGHex",req.body.hashedSignedMSGHex);
-  // console.log(req.body.publicKeyHex);
+
 
 
   
@@ -137,10 +135,18 @@ router.post('/register' , (req , res,)=>{
       console.log('session不存在');
       return;
     }
-  res.send("OK");
-  res.end();
+  // res.send("OK");
+  // res.end();
+
+  // console.log("req.body.hashedChallengeHex",req.body.hashedChallengeHex);
+  // console.log("req.body.hashedSignedMSGHex",req.body.hashedSignedMSGHex);
+  console.log("req.body.publicKeyHex",req.body.publicKeyHex);
+
   //開始驗證簽章
   // ecdsa.signature_check();
+  const result = ecdsa.signature_check(req.body.hashedChallengeHex,req.body.hashedSignedMSGHex,req.body.publicKeyHex);
+  res.status(200).send(result);
+
 
   // 儲存到資料庫 or 傳送到對應rp server上
 

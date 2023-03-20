@@ -3,9 +3,8 @@ const EC = require('elliptic').ec;
 
 var challenge = require('./challenge_fun.js');
 
-
-
-
+const result =hash("16c258e7f9fc140532bab74b03ce38bc");
+console.log(result);
 // hashSignAndVerify();
 function hashSignAndVerify(){
     //完整過程，hash後簽章再驗證
@@ -18,9 +17,9 @@ function hashSignAndVerify(){
     console.log(signature_check(keyPair,hashed_data,signed_data));
 }
 
-function hash(text){
-    //input text,output sha256 hashed
-    return crypto.createHash('sha256').update(text).digest();
+function hash(text) {
+    const hash = crypto.createHash('sha256').update(text).digest();
+    return hash.toString('hex');
 }
 
 function sign(keyPair,hashed_challenge){
@@ -30,15 +29,15 @@ function sign(keyPair,hashed_challenge){
     const signed_data = keyPair.sign(hashed_challenge);
     return signed_data;
 }
-function signature_check(keyPair,hashed,signed_data){
-    //check signature is true for false
+// function signature_check(keyPair,hashed,signed_data){
+//     //check signature is true for false
     
-    // const keyPair = ec.keyFromPrivate(privateKey);
+//     // const keyPair = ec.keyFromPrivate(privateKey);
 
 
-    return keyPair.verify(hashed,signed_data);
+//     return keyPair.verify(hashed,signed_data);
 
-}
+// }
 function signature_check(arg1,arg2,arg3){
     if (typeof arguments[0] === 'string') {
         return signature_check_clientuse(arg1,arg2,arg3);
@@ -63,14 +62,15 @@ function signature_check_serveruse(keyPair,hashed,signed_data){
 }
 
 //client請求用的
-function signature_check_clientuse(hashedChallengeHex,hashedSignedMSGHex,publicKeyHex){
-    const EC = require('elliptic').ec;
-    const ec = new EC('secp256k1');
-    let new_keyPair = ec.keyFromPublic(publicKeyHex, 'hex');
-    
-    const isVerified = crypto.verify('sha256', hashedChallengeHex, new_keyPair, hashedSignedMSGHex);
+function signature_check_clientuse(publicKeyHex) {
+
+    const publicKeyBuffer = Buffer.from(publicKeyHex, 'hex');
+
+    // 將公鑰轉換為 EC KeyPair
+    const keyPair = ec.keyFromPublic(publicKeyBuffer,'hex');
+    const isVerified = ec.verify(hashedChallengeHex, hashedSignedMSGHex, keyPair);
     return isVerified;
-}
+  }
 
 function getKeyPair(){
     const ec = new EC('secp256k1');
