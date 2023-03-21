@@ -16,6 +16,8 @@ router.use(bodyParser.json());
 
 // 設定 /preregister 路由
 router.post('/preregister', (req, res) => {
+
+
     //驗證所有參數是否存在
     if((typeof req.body.rp.reqid === 'undefined' || typeof req.body.rp.type === 'undefined' || typeof req.body.rp.app === 'undefined'
     || typeof req.body.user.name === 'undefined' || typeof req.body.user.displayName === 'undefined')){
@@ -31,6 +33,9 @@ router.post('/preregister', (req, res) => {
     challenge_code = challenge.get_128bits();
     // console.log(req.body);
     
+    console.log("/preregister ");
+    console.log(":challenge_code ",challenge_code,);
+    console.log('\n','\n');
 
 
     req.session.reqid = reqid;
@@ -71,6 +76,11 @@ router.post('/preregister', (req, res) => {
 
 // register路由
 router.post('/register' , (req , res,)=>{
+  console.log('/register');
+  console.log("hashedChallengeHex",req.body.hashedChallengeHex);
+  console.log("hashedSignedMSGHex",req.body.hashedSignedMSGHex);
+  console.log(req.body.publicKeyHex);
+  console.log('\n','\n');
 
   // res.send("test");
   // res.end();
@@ -83,11 +93,11 @@ router.post('/register' , (req , res,)=>{
   }
 
   const { rp,user } = req.body;
-  const {hashedSignedChallenge}=req.body; 
+  const {hashedChallengeHex,hashedSignedChallenge}=req.body; 
   const {privateKeyHex}=req.body;
   const{reqid,type,app} = rp;
   const {name,displayName} = user;
-  
+ 
   var challenge = require('../../challenge_fun.js');
 
   //查看session是否有被設定
@@ -140,11 +150,22 @@ router.post('/register' , (req , res,)=>{
 
   // console.log("req.body.hashedChallengeHex",req.body.hashedChallengeHex);
   // console.log("req.body.hashedSignedMSGHex",req.body.hashedSignedMSGHex);
-  console.log("req.body.publicKeyHex",req.body.publicKeyHex);
 
   //開始驗證簽章
   // ecdsa.signature_check();
+  const EC = require('elliptic').ec;
+  const ec = new EC('secp256k1');
+
+  //觀察簽章物件
+  const keyPair = ec.genKeyPair();
+  const test = keyPair.sign("123");
+
+  // const signed_data = Buffer.from(req.body.hashedSignedMSGHex, 'base64');
+  // const signature_data = ec.signature.fromDER(req.body.hashedSignedMSGHex);
+
+  
   const result = ecdsa.signature_check(req.body.hashedChallengeHex,req.body.hashedSignedMSGHex,req.body.publicKeyHex);
+  console.log("signature_check result",result);
   res.status(200).send(result);
 
 

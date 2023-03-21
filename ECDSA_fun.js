@@ -3,8 +3,23 @@ const EC = require('elliptic').ec;
 
 var challenge = require('./challenge_fun.js');
 
-const result =hash("16c258e7f9fc140532bab74b03ce38bc");
-console.log(result);
+//測試程式碼
+// const ec = new EC('secp256k1');
+// const keyPair = ec.genKeyPair();
+// privateKeyHex = keyPair.getPrivate();
+// console.log("privateKeyHex",privateKeyHex);
+// const text = challenge.get_128bits();
+// const hashed_challenge=hash(text);
+
+
+// const new_keyPair = ec.keyFromPrivate(privateKeyHex,'hex');
+
+// const signed_data = keyPair.sign(hashed_challenge);
+// console.log("signed_data",signed_data);
+// const isVerified = ec.verify(hashed_challenge, signed_data, keyPair);
+// console.log(isVerified);
+
+
 // hashSignAndVerify();
 function hashSignAndVerify(){
     //完整過程，hash後簽章再驗證
@@ -12,7 +27,7 @@ function hashSignAndVerify(){
     const ec = new EC('secp256k1');
     const keyPair = ec.genKeyPair();
     const text = challenge.get_128bits();
-    hashed_data=hash(text);
+    const hashed_data=hash(text);
     signed_data=sign(keyPair,hashed_data);
     console.log(signature_check(keyPair,hashed_data,signed_data));
 }
@@ -22,11 +37,17 @@ function hash(text) {
     return hash.toString('hex');
 }
 
-function sign(keyPair,hashed_challenge){
-    //input keyPair,hashed_data
-    //out signed
+function sign(privateKeyHex,hashed_challenge){
 
-    const signed_data = keyPair.sign(hashed_challenge);
+    const crypto = require('crypto');
+    const EC = require('elliptic').ec;
+    const ec = new EC('secp256k1');
+    
+    const new_keyPair = ec.keyFromPrivate(privateKeyHex,'hex');
+    // console.log("new_keyPair",new_keyPair);
+    var signed_data = new_keyPair.sign(hashed_challenge);
+
+    
     return signed_data;
 }
 // function signature_check(keyPair,hashed,signed_data){
@@ -62,13 +83,20 @@ function signature_check_serveruse(keyPair,hashed,signed_data){
 }
 
 //client請求用的
-function signature_check_clientuse(publicKeyHex) {
+function signature_check_clientuse(hashedChallengeHex,hashedSignedMSGHex,publicKeyHex) {
 
-    const publicKeyBuffer = Buffer.from(publicKeyHex, 'hex');
+    const publicKeyHexBuffer = Buffer.from(publicKeyHex, 'hex');
 
     // 將公鑰轉換為 EC KeyPair
-    const keyPair = ec.keyFromPublic(publicKeyBuffer,'hex');
-    const isVerified = ec.verify(hashedChallengeHex, hashedSignedMSGHex, keyPair);
+    const EC = require('elliptic').ec;
+    const ec = new EC('secp256k1');
+    const new_keyPair = ec.keyFromPublic(publicKeyHexBuffer);
+    
+    const value = hashedSignedMSGHex;
+    const signed = JSON.parse(hashedSignedMSGHex);
+
+
+    const isVerified = new_keyPair.verify(hashedChallengeHex, signed);
     return isVerified;
   }
 
@@ -77,9 +105,9 @@ function getKeyPair(){
     const keyPair = ec.genKeyPair();
     const publicKeyHex = keyPair.getPublic('hex');
     const privateKeyHex = keyPair.getPrivate('hex');
-    console.log("publicKeyHex",publicKeyHex);
-    console.log("privateKeyHex",privateKeyHex);
-    console.log(keyPair);
+    // console.log("publicKeyHex",publicKeyHex);
+    // console.log("privateKeyHex",privateKeyHex);
+    // console.log(keyPair);
     return keyPair;
 }
 function privateKeyToKeypair(privateKeyHex){
@@ -109,5 +137,6 @@ module.exports = {
     sign,
     signature_check,
     getKeyPair,
-    privateKeyToKeypair
+    privateKeyToKeypair,
+    signature_check_clientuse
   };

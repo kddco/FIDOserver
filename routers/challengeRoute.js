@@ -20,41 +20,47 @@ router.get('/getkeypairhex', (req, res) => {
   const keyPair = ec.genKeyPair();
 
   const publicKeyHex = keyPair.getPublic('hex');
-  // console.log(keyPair.getPublic('hex'));
+  // console.log("publicKeyHex",keyPair.getPublic('hex'));
   const privateKeyHex = keyPair.getPrivate('hex');
-  // console.log(keyPair.getPrivate('hex'));
+  // console.log("privateKeyHexk",keyPair.getPrivate('hex'));
+
+  console.log("/getkeypairhex")
+  console.log("publicKeyHex",publicKeyHex);
+  console.log("privateKeyHex",privateKeyHex);
+  console.log('\n','\n');
+
 
   res.json({ publicKeyHex, privateKeyHex });
 });
 
-router.get('/hash' , (req , res)=>{
-  console.log(req.body.challenge_text);
-  res.send(ecdsa.hash(req.body.challenge_text))
+router.post('/hash' , (req , res)=>{
+  // console.log(req.body.challenge_text);
+  const hashed = ecdsa.hash(req.body.challenge_text);
+
+  console.log("/hash");
+  console.log(hashed);
+  console.log('\n','\n');
+  res.send(hashed);
+  // res.send(ecdsa.hash(req.body.challenge_text))
 
 })
 
-router.post('/hashsign', (req, res) => {
-  console.log(req.body);
+router.post('/sign', (req, res) => {
+  // console.log(req.body);
   const privateKeyHex = req.body.privateKeyHex;
-  const challenge = req.body.challenge;
-  // 使用變數 publicKeyHex 和 privateKeyHex 處理資料
-  // console.log('publicKeyHex:', publicKeyHex);
-  // console.log('privateKeyHex:', privateKeyHex);
-  // console.log('challenge:', challenge);
+  const hashedChallengeHex = req.body.hashedChallengeHex;
+  const hashedSignedChallenge = ecdsa.sign(privateKeyHex,hashedChallengeHex);
 
-  const new_keyPair = ecdsa.privateKeyToKeypair(privateKeyHex);
-  // console.log("new_keyPair",new_keyPair);
-  const hashed_challenge = ecdsa.hash(challenge);
-  // console.log("hashed_challenge",hashed_challenge);
-  const hashedSignedChallenge = ecdsa.sign(new_keyPair,hashed_challenge);
-  // console.log("hashedSignedChallenge",hashedSignedChallenge);
-  const response = {
-    status: 200,
-    message: 'Success',
-    hashedSignedChallenge: hashedSignedChallenge
-  };
-  console.log("response.hashedSignedChallenge",response.hashedSignedChallenge);
-  res.json(response);
+  console.log('/sign');
+  console.log("hashedSignedChallenge",hashedSignedChallenge);
+  console.log("privateKeyHex",privateKeyHex);
+
+  console.log('\n','\n');
+
+  // const hashedSignedChallengeBuffer = Buffer.from(hashedSignedChallenge.toDER());
+  // const base64Buffer = hashedSignedChallengeBuffer.toString('base64');
+
+  res.send(hashedSignedChallenge);
 });
 
 module.exports = router;
