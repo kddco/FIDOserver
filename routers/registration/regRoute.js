@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 
 const ecdsa = require('../../ECDSA_fun.js');
-
+const db = require('../dbRoute.js');
 //解析JSON
 const bodyParser = require('body-parser');
 
@@ -154,7 +154,7 @@ router.post('/register' , (req , res,)=>{
 
 
   // 儲存到資料庫 or 傳送到對應rp server上
-
+  
 
 
 });

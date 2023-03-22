@@ -2,6 +2,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+
+const app = express();
+const port = process.env.PORT || 6677;
+
+app.use(bodyParser.json());
+app.use(cors());
+
 //load ECDSA
 require('./ECDSA_fun');
 
@@ -15,10 +22,9 @@ const testRouters  = require("./test_router.js");
 const registerRouters = require('./routers/registration/regRoute.js');
 const challengeRouters = require('./routers/challengeRoute.js');
 const test_session = require('./test_session.js');
-const dbRouters = require('./routers/db.js');
+const dbRouters = require('./routers/dbRoute.js');
 
-const app = express();
-const port = process.env.PORT || 6677;
+
 
 
 //設定session
@@ -32,6 +38,8 @@ app.use(session({
     maxAge: 3600000 // 設置 session cookie 生存期限為 1 小時
   }
 }));
+
+
 
 // 引入路由
 app.use('/test',testRouters);
