@@ -145,27 +145,11 @@ router.post('/register' , (req , res,)=>{
       console.log('session不存在');
       return;
     }
-  // res.send("OK");
-  // res.end();
-
-  // console.log("req.body.hashedChallengeHex",req.body.hashedChallengeHex);
-  // console.log("req.body.hashedSignedMSGHex",req.body.hashedSignedMSGHex);
 
   //開始驗證簽章
-  // ecdsa.signature_check();
-  const EC = require('elliptic').ec;
-  const ec = new EC('secp256k1');
-
-  //觀察簽章物件
-  const keyPair = ec.genKeyPair();
-  const test = keyPair.sign("123");
-
-  // const signed_data = Buffer.from(req.body.hashedSignedMSGHex, 'base64');
-  // const signature_data = ec.signature.fromDER(req.body.hashedSignedMSGHex);
-
   
   const result = ecdsa.signature_check(req.body.hashedChallengeHex,req.body.hashedSignedMSGHex,req.body.publicKeyHex);
-  console.log("signature_check result",result);
+  console.log("signature_check result: ",result);
   res.status(200).send(result);
 
 

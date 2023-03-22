@@ -1,0 +1,8 @@
+POST /sign HTTP/1.1
+Host: 127.0.0.1:6677
+Content-Type: application/json
+Content-Length: 10000
+{
+  "name": "john.doe@example.com",
+  "displayName": "kddc"
+}

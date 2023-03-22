@@ -15,7 +15,7 @@ const testRouters  = require("./test_router.js");
 const registerRouters = require('./routers/registration/regRoute.js');
 const challengeRouters = require('./routers/challengeRoute.js');
 const test_session = require('./test_session.js');
-
+const dbRouters = require('./routers/db.js');
 
 const app = express();
 const port = process.env.PORT || 6677;
@@ -38,6 +38,7 @@ app.use('/test',testRouters);
 app.use('/',registerRouters);
 app.use('/',challengeRouters);
 app.use('/',test_session);
+app.use('/',dbRouters);
 
 
 

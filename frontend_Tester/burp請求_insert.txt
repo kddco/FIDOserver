@@ -4,5 +4,7 @@ Content-Type: application/json
 Content-Length: 10000
 {
   "publicKeyHex": "04c879a0e6c514da5561d37a6e8eae2e6af0d26876c5cff7ecfea0af82a875a8774c5b21f6c91a81107cacd2248155fbdb7fa102c603932bf627163dcf7c4b9dcc",
-  "hashedChallengeHex": "993c3178dc6e8437d4f8cd5b7a3371ca17f8dcd16c0aebfc26762dd745304120"
+  "hashedChallengeHex": "993c3178dc6e8437d4f8cd5b7a3371ca17f8dcd16c0aebfc26762dd745304120",
+  "name": "john.doe@example.com",
+  "displayName": "kddc"
 }

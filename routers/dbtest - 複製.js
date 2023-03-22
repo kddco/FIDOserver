@@ -18,28 +18,14 @@ mongoose.connect(dbURI, {
 .then(() => {
   console.log('Connected to MongoDB');
 
-  // 定義資料模型
-  const Schema = mongoose.Schema;
-  const dataSchema = new Schema({
-    svcinfo: {
-      did: Number,
-      protocol: String,
-      authtype: String,
-      svcusername: String,
-      svcpassword: String
-    },
-    payload: {
-      username: String,
-      displayname: String,
-      options: {
-        attestation: String
-      },
-      extensions: String
-    }
-  });
+const data = {
+  name: 'John',
+  age: 30,
+  email: 'john@example.com'
+};
 
   // 定義資料模型
-  const Data = mongoose.model('Data', dataSchema, 'test');
+  const Data = mongoose.model('Data', dataSchema, 'user');
 
   // 路由定義
   app.post('/data', (req, res) => {
