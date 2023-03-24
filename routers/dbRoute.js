@@ -10,6 +10,7 @@ router.post('/insert', (req, res) => {
   if (!data.publicKeyHex || !data.name || !data.displayName) {
     res.status(400).send('Missing required parameter(s)');
   } else {
+    
     db_fun.connectionDB_insert(data);
     res.send('Data saved successfully');
   }

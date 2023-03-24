@@ -1,8 +1,8 @@
 const router = require('express').Router()
 
-
+const db_fun = require('../../db_fun.js');
 const ecdsa = require('../../ECDSA_fun.js');
-const db = require('../dbRoute.js');
+// const db = require('../dbRoute.js');
 //解析JSON
 const bodyParser = require('body-parser');
 
@@ -150,6 +150,22 @@ router.post('/register' , (req , res,)=>{
   
   const result = ecdsa.signature_check(req.body.hashedChallengeHex,req.body.hashedSignedMSGHex,req.body.publicKeyHex);
   console.log("signature_check result: ",result);
+
+  function transformJSON(jsonA) {
+    const jsonB = {
+      publicKeyHex: jsonA.publicKeyHex,
+      hashedChallengeHex: jsonA.hashedChallengeHex,
+      name: jsonA.user.name,
+      displayName: jsonA.user.displayName
+    };
+  
+    return jsonB;
+  }
+  const jsonB = transformJSON(req.body);
+  console.log(jsonB);
+
+
+  db_fun.connectionDB_insert(jsonB);
   res.status(200).send(result);
 
 

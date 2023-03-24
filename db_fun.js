@@ -20,12 +20,34 @@ const connectionDB_insert = (user_req) => {
     console.log('Connected to MongoDB');
   
     // 資料模型定義
+    // const dataSchema = new mongoose.Schema({
+    //   publicKeyHex: String,
+    //   hashedChallengeHex: String,
+    //   name: String,
+    //   displayName: String,
+    // });
     const dataSchema = new mongoose.Schema({
-      publicKeyHex: String,
-      hashedChallengeHex: String,
-      name: String,
-      displayName: String,
+      publicKeyHex: {
+        type: String,
+        required: true
+      },
+      hashedChallengeHex: {
+        type: String,
+        required: true
+      },
+      name: {
+        type: String,
+        required: true
+      },
+      displayName: {
+        type: String,
+        required: true
+      }
     });
+    
+    
+    
+    
     const Data_insert = mongoose.model('Data', dataSchema, 'user');
     
     const newData = new Data_insert(user_req);
