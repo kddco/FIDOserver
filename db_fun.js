@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 // 資料庫帳號密碼
 const username = 'fidoadmin';
 const password = 'grknwefgkr';
-const IP='192.168.209.134';
+const IP='192.168.231.128';
 
 // 資料庫連線字串
 const dbURI = `mongodb://${username}:${password}@${IP}:27017/fido`;

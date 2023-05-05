@@ -103,6 +103,7 @@ router.post('/register' , (req , res,)=>{
   //查看session是否有被設定
   if (typeof req.session === 'undefined') {
     res.status(400).send('please preregister first，session不存在');
+
     return;
 
   }
@@ -110,6 +111,7 @@ router.post('/register' , (req , res,)=>{
   if (!req.session.reqid || !req.session.type || !req.session.app ||
     !req.session.name || !req.session.displayName) {
     res.status(400).send('Please call /preregister first');
+
     return;
   }
 
@@ -117,7 +119,7 @@ router.post('/register' , (req , res,)=>{
   if((!rp || typeof rp.reqid === 'undefined' || typeof rp.type === 'undefined' || typeof rp.app === 'undefined' ||
   typeof user.name === 'undefined' || typeof user.displayName === 'undefined')){
     res.status(400).send('please preregister first,參數錯誤');
-    
+
     return;
   }
   if (!(req.session.reqid === req.body.rp.reqid
@@ -127,7 +129,11 @@ router.post('/register' , (req , res,)=>{
   && req.session.displayName === req.body.user.displayName)) {
   // if (req.session.ID === req.body.user.ID){
     console.log("屬性值不一致");
-    res.status(400).send('前註冊和註冊的屬性值不一致');
+    console.log("req.session",req.session);
+    console.log('\n\n');
+    console.log("req.body",req.body);
+    // res.status(400).send('前註冊和註冊的屬性值不一致');
+
   } 
 
 
@@ -162,12 +168,9 @@ router.post('/register' , (req , res,)=>{
     return jsonB;
   }
   const jsonB = transformJSON(req.body);
-  console.log(jsonB);
-
-
+  
   db_fun.connectionDB_insert(jsonB);
   res.status(200).send(result);
-
 
   // 儲存到資料庫 or 傳送到對應rp server上
   
