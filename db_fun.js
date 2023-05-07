@@ -32,6 +32,19 @@ const dataSchema = new mongoose.Schema({
 
 const Data = mongoose.model('Data', dataSchema, 'user');
 
+const loginSchema = new mongoose.Schema({
+  displayName: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+});
+
+const LoginData = mongoose.model('LoginData', loginSchema, 'user');
+
 // 資料庫連線函式
 const connectToDB = () => {
   return mongoose.connect(dbURI, {
@@ -65,12 +78,12 @@ const connectionDB_Register_insert = (user_req) => {
 };
 
 // 資料庫查詢函式
-const connectionDB_find = async (name, displayName) => {
+const connectionDB_find = async (displayName, name) => {
   try {
     console.log('Connecting to MongoDB');
     await connectToDB();
 
-    const data = await Data.findOne({ name, displayName });
+    const data = await Data.findOne({ displayName, name });
     console.log('Data found', data);
     mongoose.connection.close();
 
@@ -86,17 +99,18 @@ const connectionDB_login_find = async (displayName, name) => {
   try {
     console.log('Connecting to MongoDB');
     await connectToDB();
-
-    const data = await Data.findOne({ displayName, name });
-    console.log('Data found', data);
+    const loginData = await LoginData.find({ "displayName": displayName, "name": name });
+    const result = JSON.stringify(loginData, null, 2)
+    console.log(typeof result);
     mongoose.connection.close();
 
-    return data;
+    return loginData;
   } catch (err) {
     console.error('Error connecting to MongoDB', err);
     throw err;
   }
 };
+
 
 module.exports = {
   connectionDB_Register_insert,

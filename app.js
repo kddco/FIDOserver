@@ -7,8 +7,8 @@ const app = express();
 const host = '127.0.0.1';
 const port = process.env.PORT || 6677;
 
-app.use(bodyParser.json());
-app.use(cors());
+// app.use(bodyParser.json());
+// app.use(cors());
 
 //load ECDSA
 require('./ECDSA_fun');
