@@ -7,7 +7,7 @@ function get_128bits() {
   const hexString = buffer.toString('hex');
   return(hexString);
 };
-
+const a = get_128bits();
 module.exports = {
   get_128bits: get_128bits
 };

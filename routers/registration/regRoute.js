@@ -169,7 +169,7 @@ router.post('/register' , (req , res,)=>{
   }
   const jsonB = transformJSON(req.body);
   
-  db_fun.connectionDB_insert(jsonB);
+  db_fun.connectionDB_Register_insert(jsonB);
   res.status(200).send(result);
 
   // 儲存到資料庫 or 傳送到對應rp server上
