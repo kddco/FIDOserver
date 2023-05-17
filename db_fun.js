@@ -77,34 +77,20 @@ const connectionDB_Register_insert = (user_req) => {
     });
 };
 
-// 資料庫查詢函式
-const connectionDB_find = async (displayName, name) => {
-  try {
-    console.log('Connecting to MongoDB');
-    await connectToDB();
-
-    const data = await Data.findOne({ displayName, name });
-    console.log('Data found', data);
-    mongoose.connection.close();
-
-    return data;
-  } catch (err) {
-    console.error('Error connecting to MongoDB', err);
-    throw err;
-  }
-};
 
 // 新增資料查詢函式
 const connectionDB_login_find = async (displayName, name) => {
   try {
     console.log('Connecting to MongoDB');
     await connectToDB();
-    const loginData = await LoginData.find({ "displayName": displayName, "name": name });
-    const result = JSON.stringify(loginData, null, 2)
-    console.log(typeof result);
+    var loginData = await LoginData.find({ "displayName": displayName, "name": name });
+    
+    const result = JSON.stringify(loginData, null, 2);
+    const parsedData = JSON.parse(result);
+    const publicKeyHex = parsedData[0].publicKeyHex;
     mongoose.connection.close();
 
-    return loginData;
+    return publicKeyHex;
   } catch (err) {
     console.error('Error connecting to MongoDB', err);
     throw err;
@@ -114,6 +100,5 @@ const connectionDB_login_find = async (displayName, name) => {
 
 module.exports = {
   connectionDB_Register_insert,
-  connectionDB_find,
   connectionDB_login_find,
 };

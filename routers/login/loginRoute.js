@@ -12,10 +12,13 @@ router.post('/login', (req , res) => {
     return;
   }
   const { reqid, displayName, name } = req.body;
- 
-  const data = db_fun.connectionDB_login_find(displayName, name);
   
-  res.status(200).send(data);
+  const publicKeyHex =db_fun.connectionDB_login_find(displayName,name);
+
+
+  res.status(200).send(publicKeyHex);
+
+  
 });
 
 module.exports = router;

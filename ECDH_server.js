@@ -1,5 +1,7 @@
 const crypto = require('crypto');
 const fs = require('fs');
+const challenge_fun = require('./challenge_fun.js');
+
 
 async function getClientPublicKeyHex(displayName, name){
     const db_fun = require('./db_fun.js');
@@ -26,17 +28,16 @@ function computeSharedSecret(server_keypair, ClientPublicKey) {
 
 function encryptMessage(sharedSecret, message) {
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv('aes-256-gcm', sharedSecret.slice(0, 32), iv);
+    const cipher = crypto.createCipheriv('aes-256-cbc', sharedSecret.slice(0, 32), iv);
     let encrypted = cipher.update(message, 'utf8', 'hex');
     encrypted += cipher.final('hex');
-    const tag = cipher.getAuthTag();
 
-    return { encrypted, tag, iv };
+    return { encrypted, iv };
 }
 
-function decryptMessage(sharedSecret, encrypted, tag, iv) {
-    const decipher = crypto.createDecipheriv('aes-256-gcm', sharedSecret.slice(0, 32), iv);
-    decipher.setAuthTag(tag);
+
+function decryptMessage(sharedSecret, encrypted, iv) {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', sharedSecret.slice(0, 32), iv);
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
 
@@ -49,12 +50,12 @@ async function main(){
 
     const server_keypair = getServerKeyPair();
     const sharedSecret = computeSharedSecret(server_keypair, ClientPublicKey);
-
-    const { encrypted, tag, iv } = encryptMessage(sharedSecret, 'Hello, world!');
+    const challenge_code = challenge_fun.get_128bits();
+    console.log("challenge_code:",challenge_code);
+    const { encrypted, iv } = encryptMessage(sharedSecret, challenge_code);
     console.log('Encrypted message: ', encrypted);
-    console.log('Authentication tag: ', tag.toString('hex'));
 
-    const decrypted = decryptMessage(sharedSecret, encrypted, tag, iv);
+    const decrypted = decryptMessage(sharedSecret, encrypted, iv);
     console.log('Decrypted message: ', decrypted);
 }
 
