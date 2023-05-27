@@ -7,11 +7,11 @@ const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 
 router.post('/login',async  (req , res) => {
-  if (typeof req.body.reqid === 'undefined' || typeof req.body.displayName === 'undefined' || typeof req.body.name === 'undefined') {
+  if (typeof req.body.displayName === 'undefined' || typeof req.body.name === 'undefined') {
     res.status(400).json({ error: 'Missing required parameters' });
     return;
   }
-  const { reqid, displayName, name } = req.body;
+  const {displayName, name } = req.body;
   try {
     const result = await ecdsa.main(displayName, name);
     console.log("Encrypted message",result);
