@@ -2,10 +2,7 @@ POST /preregister HTTP/1.1
 Host: 127.0.0.1:6677
 Content-Type: application/json
 Content-Length: 10000
-
-
 {
-  "reqid": "123456789",
-  "displayName": "John Doe",
-  "name": "John"
+  "displayName": "mydisplayname2",
+  "name": "myid"
 }
