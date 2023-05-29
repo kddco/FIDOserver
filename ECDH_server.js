@@ -53,13 +53,13 @@ async function main(displayName,name){
     const challenge_code = challenge_fun.get_128bits();
     // console.log("challenge_code:",challenge_code);
     const { encrypted, iv } = encryptMessage(sharedSecret, challenge_code);
-    const hexData = iv.toString('hex');
+    const ivhexData = iv.toString('hex');
 
     // console.log('Encrypted message: ', encrypted);
 
     const decrypted = decryptMessage(sharedSecret, encrypted, iv);
     // console.log('Decrypted message: ', decrypted);
-    return encrypted;
+    return [encrypted,ivhexData];
 }
 async function decrypt_test(){
     //challenge code '9a6482ed9be27e036351fcdc13e31597'

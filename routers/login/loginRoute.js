@@ -12,10 +12,25 @@ router.post('/login',async  (req , res) => {
     return;
   }
   const {displayName, name } = req.body;
+  //to JSON function
+  function convertToJSON(encrypted, ivhexData) {
+    const data = {
+      encrypted: encrypted,
+      ivhexData: ivhexData
+    };
+  
+    const json = JSON.stringify(data);
+    return json;
+  }
+  
+  
+  
+
   try {
-    const result = await ecdsa.main(displayName, name);
-    console.log("Encrypted message",result);
-    res.status(200).send(result);
+    const [encrypted,ivhexData] = await ecdsa.main(displayName, name);
+    const jsonData = convertToJSON(encrypted, ivhexData);
+    console.log("Encrypted message",jsonData);
+    res.status(200).send(jsonData);
   } catch (error) {
     console.error('An error occurred:', error);
     res.status(500).json({ error: 'Internal server error' });

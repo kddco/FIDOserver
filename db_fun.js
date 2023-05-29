@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 // 資料庫帳號密碼
 const username = 'fidoadmin';
 const password = 'grknwefgkr';
-const IP = '192.168.231.128';
+const IP = '140.125.32.19';
 const dbName = 'fido';
 
 // 資料庫連線字串
-const dbURI = `mongodb://${username}:${password}@${IP}:27017/${dbName}`;
+const dbURI = `mongodb://${username}:${password}@${IP}:27000/${dbName}`;
 
 // 資料模型定義
 const dataSchema = new mongoose.Schema({
