@@ -14,7 +14,9 @@
     "elliptic": "^6.5.4",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "isomorphic-fetch": "^3.0.0",
     "mongodb": "^5.1.0",
-    "mongoose": "^7.0.1"
+    "mongoose": "^7.0.1",
+    "node-fetch": "^3.3.1"
   }
 }
