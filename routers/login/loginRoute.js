@@ -2,6 +2,9 @@ const router = require('express').Router()
 const db_fun = require('../../db_fun.js');
 const ecdsa = require('../../ECDH_server.js');
 
+const { Worker } = require('worker_threads');
+const worker = new Worker('./worker.js');
+
 
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
@@ -30,6 +33,13 @@ router.post('/login',async  (req , res) => {
     const [encrypted,ivhexData] = await ecdsa.main(displayName, name);
     const jsonData = convertToJSON(encrypted, ivhexData);
     console.log("Encrypted message",jsonData);
+
+
+    worker.on('message', message => {
+      console.log('收到来自 Worker 线程的消息:', message);
+    });
+    worker.postMessage({ url: 'http://127.0.0.1:3344/internaltoken', data: { displayName: req.body.displayName, name: req.body.name } });
+
     res.status(200).send(jsonData);
   } catch (error) {
     console.error('An error occurred:', error);
