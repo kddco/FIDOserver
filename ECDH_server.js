@@ -28,6 +28,8 @@ function computeSharedSecret(server_keypair, ClientPublicKey) {
 
 function encryptMessage(sharedSecret, message) {
     const iv = crypto.randomBytes(16);
+
+
     const cipher = crypto.createCipheriv('aes-256-cbc', sharedSecret.slice(0, 32), iv);
     let encrypted = cipher.update(message, 'utf8', 'hex');
     encrypted += cipher.final('hex');
@@ -50,8 +52,19 @@ async function main(displayName,name){
 
     const server_keypair = getServerKeyPair();
     const sharedSecret = computeSharedSecret(server_keypair, ClientPublicKey);
+    
+
+    function convertToHex(sharedSecret) {
+        const hex = Buffer.from(sharedSecret).toString('hex');
+        return hex;
+    }
+    const hexValue = convertToHex(sharedSecret);
+    console.log(hexValue);
+
+
+
     const challenge_code = challenge_fun.get_128bits();
-    // console.log("challenge_code:",challenge_code);
+    console.log("challenge_code:",challenge_code);
     const { encrypted, iv } = encryptMessage(sharedSecret, challenge_code);
     const ivhexData = iv.toString('hex');
 
@@ -74,7 +87,7 @@ async function decrypt_test(){
     console.log(decrypted);
 }   
 
-decrypt_test("mydisplayname2","myid");
+// decrypt_test("mydisplayname2","myid");
 // main("mydisplayname2","myid");
 module.exports = {
     main: main
